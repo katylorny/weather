@@ -12,7 +12,7 @@
       </radio-button>
     </div>
 
-    <day v-for="n in 4" :key="n"></day>
+    <day v-for="n in 4" :key="n" :selected-type="selectedType"></day>
   </div>
 </template>
 
