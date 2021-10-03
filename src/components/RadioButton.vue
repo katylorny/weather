@@ -68,8 +68,4 @@ export default {
   }
 }
 
-.radio-button__label {
-  opacity: 0.7;
-}
-
 </style>

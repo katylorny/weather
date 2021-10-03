@@ -130,7 +130,8 @@ export default {
 }
 
 .showed {
-  display: block;
+  display: flex;
+  align-items: baseline;
 }
 
 </style>
