@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     reverseGeocode(coords) {
-      fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1], {
+      fetch('https://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1], {
         headers: {
           'Accept-Language': 'en'
         }
