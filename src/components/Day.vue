@@ -31,7 +31,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border-left: 1px solid white;
+  border-left: 1px solid #ffffff4a;
 }
 
 .day__title {

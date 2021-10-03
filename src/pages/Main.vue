@@ -9,6 +9,7 @@
 import Header from "../components/Header";
 import Days from "../components/Days";
 
+
 export default {
   name: "Main",
   data() {
@@ -20,16 +21,7 @@ export default {
     Days,
     VHeader: Header
   },
-  mounted() {
-   navigator.geolocation.getCurrentPosition(this.onSuccess)
-  },
-  methods: {
-    onSuccess(geo) {
-      console.log(geo);
-      // const lat = geo.coords.latitude;
-      // const long = geo.coords.longitude;
-    }
-  }
+
 }
 </script>
 

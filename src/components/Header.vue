@@ -3,14 +3,47 @@
     <h1 class="header__title">
       Weather
     </h1>
-    <p class="header__city">Moscow</p>
+    <p class="header__city">
+      {{ city }}
+    </p>
 
   </header>
 </template>
 
 <script>
+
+
 export default {
-  name: "Header"
+  name: "Header",
+  data() {
+    return {
+      city: `Allow access to geolocation`
+    }
+  },
+  mounted() {
+    navigator.geolocation.getCurrentPosition(this.onSuccess)
+  },
+  methods: {
+    reverseGeocode(coords) {
+      fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1], {
+        headers: {
+          'Accept-Language': 'en'
+        }
+      })
+          .then((response) => {
+            return response.json();
+          }).then((json) => {
+        console.log(json.address.state);
+        this.city = json.address.state
+      });
+    },
+    onSuccess(geo) {
+      console.log(geo);
+      const lat = geo.coords.latitude;
+      const long = geo.coords.longitude;
+      this.reverseGeocode([long, lat])
+    }
+  }
 }
 </script>
 
