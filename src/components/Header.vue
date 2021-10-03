@@ -5,6 +5,9 @@
     </h1>
     <p class="header__city">
       {{ city }}
+      <span class="header__error" v-if="isError">
+        Attention! {{errorMessage}}
+      </span>
     </p>
 
   </header>
@@ -17,11 +20,14 @@ export default {
   name: "Header",
   data() {
     return {
-      city: `Allow access to geolocation`
+      // city: `Allow access to geolocation`,
+      city: `Moscow`,
+      errorMessage: '',
+      isError: false
     }
   },
   mounted() {
-    navigator.geolocation.getCurrentPosition(this.onSuccess)
+    navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
   },
   methods: {
     reverseGeocode(coords) {
@@ -38,10 +44,16 @@ export default {
       });
     },
     onSuccess(geo) {
+      this.isError = false
       console.log(geo);
       const lat = geo.coords.latitude;
       const long = geo.coords.longitude;
       this.reverseGeocode([long, lat])
+    },
+    onError(error) {
+      this.isError = true
+      this.errorMessage = error.message
+      // console.log(`error`, error.message);
     }
   }
 }
@@ -81,5 +93,10 @@ export default {
     width: 20px;
     height: 20px;
   }
+}
+
+.header__error {
+  display: block;
+  color: red;
 }
 </style>

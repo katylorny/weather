@@ -40,6 +40,7 @@ export default {
   cursor: pointer;
   margin-bottom: 10px;
   opacity: 0.6;
+  transition: opacity 0.4s ease;
   width: fit-content;
 
   &:hover {
