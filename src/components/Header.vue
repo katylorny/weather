@@ -89,6 +89,7 @@ export default {
   font-weight: 500;
   text-transform: uppercase;
   font-size: 35px;
+  margin-bottom: 0;
 
   @media (max-width: 767px) {
     font-size: 30px;
@@ -103,15 +104,15 @@ export default {
 
 .header__city {
   margin-top: 0;
-  //margin: 0;
   color: white;
   font-weight: 500;
-  //text-transform: uppercase;
   display: block;
   position: relative;
   font-size: 20px;
   padding-left: 27px;
   align-self: self-end;
+  margin-bottom: 0;
+
 
   @media (max-width: 767px) {
     margin-top: 6px;
@@ -133,6 +134,8 @@ export default {
   display: flex;
   color: red;
   margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
 
   @media (max-width: 767px) {
     max-width: 145px;
