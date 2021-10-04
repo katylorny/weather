@@ -51,6 +51,12 @@ export default {
   flex-direction: column;
   padding: 20px;
   border-left: 1px solid #ffffff4a;
+
+  @media (max-width: 767px) {
+    margin-left: -1px;
+    margin-top: -1px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
 }
 
 .day__title {
@@ -65,6 +71,10 @@ export default {
   font-size: 70px;
   display: none;
 
+  @media (max-width: 767px) {
+    font-size: 50px;
+  }
+
   &::after {
     top: 0;
     right: -25px;
@@ -77,6 +87,10 @@ export default {
   display: none;
   margin: auto;
   font-size: 70px;
+
+  @media (max-width: 767px) {
+    font-size: 50px;
+  }
 
 
   &::after {
@@ -93,6 +107,10 @@ export default {
   margin: auto;
   font-size: 70px;
 
+  @media (max-width: 767px) {
+    font-size: 50px;
+  }
+
   &::after {
     top: 0;
     right: -25px;
@@ -105,6 +123,10 @@ export default {
   font-size: 70px;
   margin: auto;
   display: none;
+
+  @media (max-width: 767px) {
+    font-size: 50px;
+  }
 
 
   &::after {
@@ -132,6 +154,10 @@ export default {
 .showed {
   display: flex;
   align-items: baseline;
+
+  @media (max-width: 767px) {
+    height: 60px;
+  }
 }
 
 </style>

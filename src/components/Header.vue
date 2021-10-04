@@ -3,15 +3,22 @@
     <h1 class="header__title">
       Weather
     </h1>
-    <p class="header__city">
-      {{ city }}
-      <span class="header__error" v-if="isError">
-        Attention! {{errorMessage}}
-      </span>
-    </p>
-    <button type="button" class="header__refresh-button" @click="getCurrentPosition" v-if="isError">
-      <img :src="refreshImg" alt="Refresh" width="20" height="20">
-    </button>
+
+    <div class="header__geo">
+      <p class="header__city">
+        {{ city }}
+      </p>
+      <p class="header__error" v-if="isError">
+        Attention! {{ errorMessage }}
+        <button type="button" class="header__refresh-button" @click="getCurrentPosition" v-if="isError">
+          <img :src="refreshImg" alt="Refresh" width="15" height="15">
+        </button>
+      </p>
+
+    </div>
+
+
+
 
   </header>
 </template>
@@ -70,6 +77,10 @@ export default {
 .header {
   display: flex;
   padding: 20px;
+
+  @media (max-width: 767px) {
+    //align-items: center;
+  }
 }
 
 .header__title {
@@ -77,24 +88,40 @@ export default {
   color: white;
   font-weight: 500;
   text-transform: uppercase;
+  font-size: 35px;
+
+  @media (max-width: 767px) {
+    font-size: 30px;
+  }
+}
+
+.header__geo {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .header__city {
   margin-top: 0;
+  //margin: 0;
   color: white;
   font-weight: 500;
   //text-transform: uppercase;
   display: block;
   position: relative;
-  margin-left: auto;
   font-size: 20px;
-  align-self: center;
+  padding-left: 27px;
+  align-self: self-end;
+
+  @media (max-width: 767px) {
+    margin-top: 6px;
+  }
 
   &::before {
     content: "";
     position: absolute;
     top: 2px;
-    left: -27px;
+    left: 0;
     background: url("../assets/img/icon-pin.png") no-repeat;
     background-size: cover;
     width: 20px;
@@ -103,8 +130,13 @@ export default {
 }
 
 .header__error {
-  display: block;
+  display: flex;
   color: red;
+  margin: 0;
+
+  @media (max-width: 767px) {
+    max-width: 145px;
+  }
 }
 
 .header__refresh-button {
@@ -113,8 +145,8 @@ export default {
   padding: 0;
   cursor: pointer;
   height: fit-content;
-  margin: auto 10px;
   transition: all 0.3s ease;
+  margin: auto 0 auto 10px;
 
   &:hover {
     transform: scale(1.2);
