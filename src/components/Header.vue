@@ -9,17 +9,21 @@
         Attention! {{errorMessage}}
       </span>
     </p>
+    <button type="button" class="header__refresh-button" @click="getCurrentPosition" v-if="isError">
+      <img :src="refreshImg" alt="Refresh" width="20" height="20">
+    </button>
 
   </header>
 </template>
 
 <script>
-
+import refreshImg from "/src/assets/img/icon-reload.svg"
 
 export default {
   name: "Header",
   data() {
     return {
+      refreshImg,
       // city: `Allow access to geolocation`,
       city: `Moscow`,
       errorMessage: '',
@@ -27,9 +31,12 @@ export default {
     }
   },
   mounted() {
-    navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
+    this.getCurrentPosition()
   },
   methods: {
+    getCurrentPosition() {
+      navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
+    },
     reverseGeocode(coords) {
       fetch('https://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1], {
         headers: {
@@ -98,5 +105,14 @@ export default {
 .header__error {
   display: block;
   color: red;
+}
+
+.header__refresh-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  height: fit-content;
+  margin: auto 10px;
 }
 </style>
