@@ -114,5 +114,14 @@ export default {
   cursor: pointer;
   height: fit-content;
   margin: auto 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
 }
 </style>
