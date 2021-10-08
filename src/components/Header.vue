@@ -8,9 +8,9 @@
       <p class="header__city">
         {{ city }}
       </p>
-      <p class="header__error" v-if="isError">
-        Attention! {{ errorMessage }}
-        <button type="button" class="header__refresh-button" @click="getCurrentPosition" v-if="isError">
+      <p class="header__error" v-if="locationStatus.isError">
+        Attention! {{ locationStatus.errorMessage }}
+        <button type="button" class="header__refresh-button" @click="getCurrentPosition" v-if="locationStatus.isError">
           <img :src="refreshImg" alt="Refresh" width="15" height="15">
         </button>
       </p>
@@ -18,58 +18,34 @@
     </div>
 
 
-
-
   </header>
 </template>
 
 <script>
 import refreshImg from "/src/assets/img/icon-reload.svg"
+import {mapState, mapActions} from "vuex/dist/vuex.mjs";
 
 export default {
   name: "Header",
   data() {
     return {
       refreshImg,
-      // city: `Allow access to geolocation`,
-      city: `Moscow`,
-      errorMessage: '',
-      isError: false
     }
   },
   mounted() {
     this.getCurrentPosition()
   },
+  computed: {
+    ...mapState([
+      'city',
+      'locationStatus'
+    ])
+  },
   methods: {
-    getCurrentPosition() {
-      navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
-    },
-    reverseGeocode(coords) {
-      fetch('https://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1], {
-        headers: {
-          'Accept-Language': 'en'
-        }
-      })
-          .then((response) => {
-            return response.json();
-          }).then((json) => {
-        console.log(json.address.state);
-        this.city = json.address.state
-      });
-    },
-    onSuccess(geo) {
-      this.isError = false
-      console.log(geo);
-      const lat = geo.coords.latitude;
-      const long = geo.coords.longitude;
-      this.reverseGeocode([long, lat])
-    },
-    onError(error) {
-      this.isError = true
-      this.errorMessage = error.message
-      // console.log(`error`, error.message);
-    }
-  }
+    ...mapActions([
+      'getCurrentPosition'
+    ])
+  },
 }
 </script>
 

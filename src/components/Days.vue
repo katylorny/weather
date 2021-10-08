@@ -13,7 +13,15 @@
     </div>
 
     <div class="days__list">
-      <day v-for="n in 4" :key="n" :selected-type="selectedType"></day>
+      <day v-for="(weatherDay, n) in fakeWeather" :key="n"
+           :selected-type="selectedType"
+           :temperature="weatherDay.temperature"
+           :humidity="weatherDay.humidity"
+           :pressure="weatherDay.pressure"
+           :wind="weatherDay.wind"
+           :img="weatherDay.icon"
+           :date="weatherDay.date"
+      ></day>
     </div>
   </div>
 </template>
@@ -32,6 +40,11 @@ export default {
     return {
       weatherInfoTypes: [`Temperature`, `Air humidity`, `Atmosphere pressure`, `Wind speed`],
       selectedType: `Temperature`
+    }
+  },
+  computed: {
+    fakeWeather() {
+      return this.$store.getters.fakeWeather
     }
   }
 }

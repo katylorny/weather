@@ -1,24 +1,24 @@
 <template>
   <div class="day">
     <div class="day__title">
-      Mon, 26
+      {{ date }}
     </div>
     <div :class="['day__temperature', isActive(`Temperature`) ? `showed` : ``]">
-      26
+      {{ temperature }}
     </div>
     <div :class="['day__humidity', isActive(`Air humidity`) ? `showed` : ``]">
-      50
+      {{ humidity }}
     </div>
     <div :class="['day__pressure', isActive(`Atmosphere pressure`) ? `showed` : ``]">
-      760
+      {{ pressure }}
     </div>
 
     <div :class="['day__wind', isActive(`Wind speed`) ? `showed` : ``]">
-      5
+      {{ wind }}
     </div>
 
     <div class="day__img">
-      <img :src="cloudyIcon" alt="">
+      <img v-if="img" :src="`http://openweathermap.org/img/wn/${img}@2x.png`" alt="">
     </div>
   </div>
 </template>
@@ -29,7 +29,14 @@ import cloudyIcon from "/src/assets/img/icon-cloudy.png";
 export default {
   name: "Day",
   props: {
-    selectedType: String
+    selectedType: String,
+    temperature: Number,
+    pressure: Number,
+    humidity: Number,
+    wind: Number,
+    icon: String,
+    img: String,
+    date: String
   },
   data() {
     return {
