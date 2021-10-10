@@ -3,17 +3,19 @@
     <div class="day__title">
       {{ date }}
     </div>
-    <div :class="['day__temperature', isActive(`Temperature`) ? `showed` : ``]">
+    <div v-if="temperature" :class="['day__temperature', isActive(`Temperature`) ? `showed` : ``]">
       {{ temperature }}
     </div>
-    <div :class="['day__humidity', isActive(`Air humidity`) ? `showed` : ``]">
+    <div v-else class="loader"/>
+    <div v-if="humidity" :class="['day__humidity', isActive(`Air humidity`) ? `showed` : ``]">
       {{ humidity }}
     </div>
-    <div :class="['day__pressure', isActive(`Atmosphere pressure`) ? `showed` : ``]">
+
+    <div v-if="pressure" :class="['day__pressure', isActive(`Atmosphere pressure`) ? `showed` : ``]">
       {{ pressure }}
     </div>
 
-    <div :class="['day__wind', isActive(`Wind speed`) ? `showed` : ``]">
+    <div v-if="wind" :class="['day__wind', isActive(`Wind speed`) ? `showed` : ``]">
       {{ wind }}
     </div>
 

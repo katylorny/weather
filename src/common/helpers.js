@@ -15,6 +15,7 @@ export const getRandomElementFromArray = (arr) => {
 }
 
 export const formatDate = (date) => {
+    if (date) console.log(`date`, date);
     const dayName = date.toLocaleDateString("en-En", {weekday: 'short'})
     const day = date.toLocaleDateString("en-En", {day: 'numeric'})
     const month = date.toLocaleDateString("en-En", {month: 'short'})

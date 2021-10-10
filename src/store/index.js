@@ -22,26 +22,29 @@ export default new Vuex.Store({
             wind: null,
             icon: '',
             date: null
-        }
+        },
+        date: null
 
     },
     getters: {
         fakeWeather: (state) => {
             let otherDaysWeather = []
             otherDaysWeather.push(state.weatherDataToday)
-            const date = new Date()
             for (let i = 0; i < 3; i++) {
-                date.setDate(date.getDate() + 1)
-                const a = {
-                    temperature: state.weatherDataToday.temperature + randomInteger(-5, 5),
+                let date = null
+                if (state.date) {
+                    date = state.date
+                    date.setDate(date.getDate() + 1);
+                }
+                const dayInfo = {
+                    temperature: state.weatherDataToday.temperature ? Math.abs(state.weatherDataToday.temperature + randomInteger(-5, 5)) : null,
                     humidity: state.weatherDataToday.humidity + randomInteger(-5, 5),
                     pressure: state.weatherDataToday.pressure + randomInteger(-50, 50),
                     wind: Math.abs(state.weatherDataToday.wind + randomInteger(-5, 5)),
-                    icon: getRandomElementFromArray(iconsArray),
-                    date: formatDate(date)
-
+                    icon: state.weatherDataToday.icon ? getRandomElementFromArray(iconsArray) : '',
+                    date: state.date ? formatDate(date) : null
                 }
-                otherDaysWeather.push(a)
+                otherDaysWeather.push(dayInfo)
             }
 
             return otherDaysWeather
@@ -68,6 +71,9 @@ export default new Vuex.Store({
             state.weatherDataToday.wind = wind
             state.weatherDataToday.icon = icon
             state.weatherDataToday.date = date
+        },
+        setDate(state, date) {
+            state.date = date
         }
     },
     actions: {
@@ -98,6 +104,8 @@ export default new Vuex.Store({
                     .then((response) => {
                         const date = new Date()
 
+                        commit(`setDate`, date)
+
                         commit(`setTodayWeatherData`, {
                             temperature: kelvinToCelsius(response.main.temp),
                             humidity: response.main.humidity,
@@ -106,8 +114,6 @@ export default new Vuex.Store({
                             icon: response.weather[0].icon,
                             date: formatDate(date)
                         })
-
-
                     })
             }
 
