@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {kelvinToCelsius, randomInteger, iconsArray, getRandomElementFromArray, formatDate} from "../common/helpers";
+import cyrillicToTranslit from 'cyrillic-to-translit-js'
 
 Vue.use(Vuex)
 
@@ -88,7 +89,8 @@ export default new Vuex.Store({
                         return response.json();
                     }).then((json) => {
                     console.log(json);
-                    commit('changeCity', json.address.city_district || json.address.county|| json.address.state)
+                    const geoName = json.address.city_district || json.address.county|| json.address.state
+                    commit('changeCity', cyrillicToTranslit().transform(geoName, ' '))
                     // commit('changeCity', json.address.suburb)
                 });
             }

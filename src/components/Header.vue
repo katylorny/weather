@@ -66,6 +66,7 @@ export default {
   text-transform: uppercase;
   font-size: 35px;
   margin-bottom: 0;
+  margin-right: 15px;
 
   @media (max-width: 767px) {
     font-size: 30px;
@@ -79,6 +80,7 @@ export default {
 }
 
 .header__city {
+  //font-family: "Nunito", Arial, sans-serif;
   margin-top: 0;
   color: white;
   font-weight: 500;
