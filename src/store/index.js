@@ -89,6 +89,7 @@ export default new Vuex.Store({
                         return response.json();
                     }).then((json) => {
                     console.log(json);
+                    // const geoName = json.address.road || json.address.city_district || json.address.county|| json.address.state
                     const geoName = json.address.city_district || json.address.county|| json.address.state
                     commit('changeCity', cyrillicToTranslit().transform(geoName, ' '))
                     // commit('changeCity', json.address.suburb)
