@@ -87,7 +87,9 @@ export default new Vuex.Store({
                     .then((response) => {
                         return response.json();
                     }).then((json) => {
-                    commit('changeCity', json.address.state)
+                    console.log(json);
+                    commit('changeCity', json.address.city_district || json.address.county|| json.address.state)
+                    // commit('changeCity', json.address.suburb)
                 });
             }
 
