@@ -78,7 +78,8 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        getCurrentPosition({commit, state}) {
+        setWeatherData({commit, state}, geo) {
+            // название города
             const reverseGeocode = (coords) => {
                 fetch('https://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1], {
                     headers: {
@@ -90,36 +91,42 @@ export default new Vuex.Store({
                     }).then((json) => {
                     console.log(json);
                     // const geoName = json.address.road || json.address.city_district || json.address.county|| json.address.state
-                    const geoName = json.address.city_district || json.address.county|| json.address.state
+                    const geoName = json.address.city_district || json.address.county || json.address.state
                     commit('changeCity', cyrillicToTranslit().transform(geoName, ' '))
                     // commit('changeCity', json.address.suburb)
                 });
             }
+            state.locationStatus.isError = false
+            commit(`changeCoords`, {
+                lat: geo.coords.latitude,
+                lon: geo.coords.longitude
+            })
+            reverseGeocode([state.coords.lon, state.coords.lat])
+            const key = 'f16dd19c3ddd4b028bed5074fee33402'
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${state.coords.lat}&lon=${state.coords.lon}&appid=${key}`)
+                .then(response => response.json())
+                .then((response) => {
+                    const date = new Date()
 
-            const onSuccess = (geo) => {
-                state.locationStatus.isError = false
-                commit(`changeCoords`, {
-                    lat: geo.coords.latitude,
-                    lon: geo.coords.longitude
-                })
-                reverseGeocode([state.coords.lon, state.coords.lat])
-                const key = 'f16dd19c3ddd4b028bed5074fee33402'
-                fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${state.coords.lat}&lon=${state.coords.lon}&appid=${key}`)
-                    .then(response => response.json())
-                    .then((response) => {
-                        const date = new Date()
+                    commit(`setDate`, date)
 
-                        commit(`setDate`, date)
-
-                        commit(`setTodayWeatherData`, {
-                            temperature: kelvinToCelsius(response.main.temp),
-                            humidity: response.main.humidity,
-                            pressure: response.main.pressure,
-                            wind: response.wind.speed,
-                            icon: response.weather[0].icon,
-                            date: formatDate(date)
-                        })
+                    commit(`setTodayWeatherData`, {
+                        temperature: kelvinToCelsius(response.main.temp),
+                        humidity: response.main.humidity,
+                        pressure: response.main.pressure,
+                        wind: response.wind.speed,
+                        icon: response.weather[0].icon,
+                        date: formatDate(date)
                     })
+                })
+        },
+
+        getCurrentPosition({commit, dispatch}) {
+
+
+            // получение погоды
+            const onSuccess = (geo) => {
+               dispatch(`setWeatherData`, geo)
             }
 
             const onError = (error) => {

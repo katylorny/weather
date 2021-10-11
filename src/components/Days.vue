@@ -12,7 +12,11 @@
       </radio-button>
     </div>
 
-    <div class="days__list">
+    <div v-if="false" class="days__show-moscow-weather">
+      <p>We don't know where you are.</p>
+      <button> Show weather in Moscow </button>
+    </div>
+    <div class="days__list" v-if="true">
       <day v-for="(weatherDay, n) in fakeWeather" :key="n"
            :selected-type="selectedType"
            :temperature="weatherDay.temperature"
@@ -89,4 +93,18 @@ export default {
     margin-left: 1px;
   }
 }
+
+.days__show-moscow-weather {
+  width: fit-content;
+  align-self: center;
+  margin: auto;
+  margin-right: 50vw;
+  transform: translateX(50%);
+
+  button {
+    cursor: pointer;
+  }
+}
+
+
 </style>
