@@ -8,6 +8,13 @@ export const randomInteger = (min, max) => {
     return Math.round(rand);
 }
 
+export const MOSCOW = {
+    coords: {
+        longitude: `37.378847`,
+        latitude: `55.558741`
+    }
+}
+
 export const iconsArray = [`01d`, `02d`, `03d`, `04d`, `09d`, `10d`, `11d`, `13d`, `50d`]
 
 export const getRandomElementFromArray = (arr) => {

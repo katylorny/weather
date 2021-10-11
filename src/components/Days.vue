@@ -12,11 +12,8 @@
       </radio-button>
     </div>
 
-    <div v-if="false" class="days__show-moscow-weather">
-      <p>We don't know where you are.</p>
-      <button> Show weather in Moscow </button>
-    </div>
-    <div class="days__list" v-if="true">
+
+    <div class="days__list" v-if="!locationStatus.isError">
       <day v-for="(weatherDay, n) in fakeWeather" :key="n"
            :selected-type="selectedType"
            :temperature="weatherDay.temperature"
@@ -25,7 +22,11 @@
            :wind="weatherDay.wind"
            :img="weatherDay.icon"
            :date="weatherDay.date"
-      ></day>
+      />
+    </div>
+    <div v-else class="days__show-moscow-weather">
+      <p>We don't know where you are.</p>
+      <button @click="onShowMoscowWeatherButtonClick"> Show weather in Moscow </button>
     </div>
   </div>
 </template>
@@ -33,6 +34,8 @@
 <script>
 import Day from "./Day";
 import RadioButton from "./RadioButton";
+import {mapActions, mapState} from "vuex";
+import {MOSCOW} from "../common/helpers";
 
 export default {
   name: "Days",
@@ -47,8 +50,20 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+        `locationStatus`
+    ]),
     fakeWeather() {
       return this.$store.getters.fakeWeather
+    },
+
+  },
+  methods: {
+    ...mapActions([
+        'setWeatherData'
+    ]),
+    onShowMoscowWeatherButtonClick() {
+      this.setWeatherData(MOSCOW)
     }
   }
 }
@@ -102,7 +117,17 @@ export default {
   transform: translateX(50%);
 
   button {
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 9px;
+    background: white;
     cursor: pointer;
+    transition: all 300ms ease;
+    font-weight: 600;
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 }
 
