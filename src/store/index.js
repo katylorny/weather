@@ -24,7 +24,8 @@ export default new Vuex.Store({
             icon: '',
             date: null
         },
-        date: null
+        date: null,
+        icon: `10n`
 
     },
     getters: {
@@ -41,7 +42,7 @@ export default new Vuex.Store({
                     temperature: state.weatherDataToday.temperature ? Math.abs(state.weatherDataToday.temperature + randomInteger(-5, 5)) : null,
                     humidity: state.weatherDataToday.humidity + randomInteger(-5, 5),
                     pressure: state.weatherDataToday.pressure + randomInteger(-50, 50),
-                    wind: Math.abs(state.weatherDataToday.wind + randomInteger(-5, 5)),
+                    wind: Math.round(Math.abs(state.weatherDataToday.wind + randomInteger(-5, 5))),
                     icon: state.weatherDataToday.icon ? getRandomElementFromArray(iconsArray) : '',
                     date: state.date ? formatDate(date) : null
                 }
@@ -111,10 +112,10 @@ export default new Vuex.Store({
                     commit(`setDate`, date)
 
                     commit(`setTodayWeatherData`, {
-                        temperature: kelvinToCelsius(response.main.temp),
-                        humidity: response.main.humidity,
-                        pressure: response.main.pressure,
-                        wind: response.wind.speed,
+                        temperature: Math.round(kelvinToCelsius(response.main.temp)),
+                        humidity: Math.round(response.main.humidity),
+                        pressure: Math.round(response.main.pressure),
+                        wind: Math.round(response.wind.speed),
                         icon: response.weather[0].icon,
                         date: formatDate(date)
                     })
