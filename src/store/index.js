@@ -30,7 +30,7 @@ export default new Vuex.Store({
     },
     getters: {
         fakeWeather: (state) => {
-            let otherDaysWeather = []
+            const otherDaysWeather = []
             otherDaysWeather.push(state.weatherDataToday)
             for (let i = 0; i < 3; i++) {
                 let date = null
@@ -54,25 +54,36 @@ export default new Vuex.Store({
     },
     mutations: {
         changeCoords(state, {lat, lon}) {
-            state.coords.lat = lat
-            state.coords.lon = lon
+            state.coords = {
+                lat,
+                lon
+            }
+
         },
         changeCity(state, city) {
             state.city = city
         },
         changeErrorStatus(state, isError) {
-            state.locationStatus.isError = isError
+            state.locationStatus = {
+                ...state.locationStatus,
+                isError
+            }
         },
         changeErrorMessage(state, errorMessage) {
-            state.locationStatus.errorMessage = errorMessage
+            state.locationStatus = {
+                ...state.locationStatus,
+                errorMessage
+            }
         },
         setTodayWeatherData(state, {temperature, humidity, pressure, wind, icon, date}) {
-            state.weatherDataToday.temperature = Math.round(temperature)
-            state.weatherDataToday.humidity = humidity
-            state.weatherDataToday.pressure = pressure
-            state.weatherDataToday.wind = wind
-            state.weatherDataToday.icon = icon
-            state.weatherDataToday.date = date
+            state.weatherDataToday = {
+                temperature: Math.round(temperature),
+                humidity,
+                pressure,
+                wind,
+                icon,
+                date
+            }
         },
         setDate(state, date) {
             state.date = date
@@ -90,17 +101,16 @@ export default new Vuex.Store({
                         'Accept-Language': 'en'
                     }
                 })
-                    .then((response) => {
-                        return response.json();
-                    }).then((json) => {
-                    console.log(json);
+                    .then((response) => response.json())
+                    .then((json) => {
                     // const geoName = json.address.road || json.address.city_district || json.address.county|| json.address.state
                     const geoName = json.address.city_district || json.address.county || json.address.state
                     commit('changeCity', cyrillicToTranslit().transform(geoName, ' '))
                     // commit('changeCity', json.address.suburb)
                 });
             }
-            state.locationStatus.isError = false
+            // state.locationStatus.isError = false
+            commit('changeErrorStatus', false)
             commit(`changeCoords`, {
                 lat: geo.coords.latitude,
                 lon: geo.coords.longitude
@@ -115,6 +125,7 @@ export default new Vuex.Store({
                     commit(`setDate`, date)
 
                     commit(`setIcon`, response.weather[0].icon)
+                    // commit(`setIcon`, `50d`)
 
                     commit(`setTodayWeatherData`, {
                         temperature: Math.round(kelvinToCelsius(response.main.temp)),
@@ -129,10 +140,9 @@ export default new Vuex.Store({
 
         getCurrentPosition({commit, dispatch}) {
 
-
             // получение погоды
             const onSuccess = (geo) => {
-               dispatch(`setWeatherData`, geo)
+                dispatch(`setWeatherData`, geo)
             }
 
             const onError = (error) => {
