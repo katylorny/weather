@@ -25,7 +25,7 @@ export default new Vuex.Store({
             date: null
         },
         date: null,
-        icon: `10n`
+        icon: ``
 
     },
     getters: {
@@ -76,6 +76,9 @@ export default new Vuex.Store({
         },
         setDate(state, date) {
             state.date = date
+        },
+        setIcon(state, icon) {
+            state.icon = icon
         }
     },
     actions: {
@@ -110,6 +113,8 @@ export default new Vuex.Store({
                     const date = new Date()
 
                     commit(`setDate`, date)
+
+                    commit(`setIcon`, response.weather[0].icon)
 
                     commit(`setTodayWeatherData`, {
                         temperature: Math.round(kelvinToCelsius(response.main.temp)),
